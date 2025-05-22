@@ -39,7 +39,7 @@ pip install text-to-speech
 ## 🌐 Visit
 
 - Access the code through link:
-https://replit.com/@waleed-repl/python-projects#Text-To-Speech%20Converter/
+https://github.com/devByWaleed/py-projects/tree/main/Text-To-Speech%20Converter/
 
 
 ## 📜 License

@@ -56,7 +56,7 @@ Nested expressions are recursively evaluated using `eval()` and `calc()`.
 ### Sample Inputs
 
 ```bash
-add 5 3
+5 add 3
 1+2mod3+4
 2*(3 + 4)
 - (2 pow (3 sub 4))
@@ -101,7 +101,7 @@ Error: Invalid operator "-sub"
 ## 🌐 Visit
 
 - Access the code through link:
-https://replit.com/@waleed-repl/python-projects#String-Based%20Calculator/
+https://github.com/devByWaleed/py-projects/tree/main/String-Based%20Calculator
 
 
 ## 📜 License
