@@ -1,0 +1,239 @@
+'''
+Get operator:-
+
+Now let's take care of what is not numbers - operators.
+
+
+Challenge:-
+Add support for get_next to find also "operators" and not only numbers.
+
+Examples:
+
+get_next('12+34',  2)  ->  '+'
+get_next('42.2mul16+32', 4)  ->  'mul'
+get_next('42.2mul16+32', 6)  ->  'l'
+get_next('42.2mul16+32', 7)  ->  16
+Make sure to check if you read number or operator.
+
+Note: Don't check if the operator is real operator, we are already doing this check in other function!
+'''
+
+def calc(op, num1, num2=None):
+    # The aliases containing words with corresponding operator
+    aliases = {
+        "add": "+",
+        "sub": "-",
+        "mul": "*",
+        "div": "/",
+        "pow": "^",
+        "mod": "%",
+    }
+
+    # Check if num1 is a valid number
+    if not isinstance(num1, (int, float)):
+        raise Exception(f'Invalid number "{num1}"')
+
+    # If num2 is provided, check if it's a valid number
+    if num2 is not None and not isinstance(num2, (int, float)):
+        raise Exception(f'Invalid number "{num2}"')
+
+    # Check for aliases and assign corresponding operator
+    op = aliases.get(op, op)
+
+    # Condition assigned ^ to correspond ** operator in Python
+    if op == "^":
+        op = "**"
+
+    # Validate operator after alias resolution
+    if op not in ["+", "-", "*", "/", "**", "%"]:
+        raise Exception(f'Invalid operator "{op}"')
+
+    # If 2nd number is not given, return the number itself (or handle unary operation)
+    if num2 is None:
+        if op == '-':
+            return -num1  # or handle unary operations here
+        else:
+            return num1  # or handle unary operations here
+
+
+    # Try to solve the expression
+    try:
+        # Division by zero check before evaluating
+        if op in ["/", "%"] and num2 == 0:
+            raise Exception('Division by zero')
+
+        # Perform the operation directly without eval
+        if op == "+":
+            return num1 + num2
+        elif op == "-":
+            return num1 - num2
+        elif op == "*":
+            return num1 * num2
+        elif op == "/":
+            return num1 / num2
+        elif op == "**":
+            return num1 ** num2
+
+    except Exception as e:
+        raise Exception(f'{str(e)}') from e
+
+def eval(expression):
+    if isinstance(expression, (str, int)) or len(expression) == 0 or len(expression) > 3:
+    # if isinstance(expression, str) or isinstance(expression, int) or len(expression) == 0 or len(expression) > 3:
+        return(f'Failed to evaluate "{expression}"')
+
+    operator = expression[0]
+
+    # If the expression has only one operand (unary operation)
+    if len(expression) == 2:
+        num1 = expression[1]
+
+        # If num1 is a list, evaluate it first
+        if isinstance(num1, list):
+            num1 = eval(num1)
+
+        return calc(operator, num1)
+
+    # If the expression has two operands (binary operation)
+    elif len(expression) == 3:
+        num1 = expression[1]
+        num2 = expression[2]
+
+        # Recursively evaluate num1 if it is a list
+        if isinstance(num1, list):
+            num1 = eval(num1)
+
+        # Recursively evaluate num2 if it is a list
+        if isinstance(num2, list):
+            num2 = eval(num2)
+
+        return calc(operator, num1, num2)
+    
+
+def get_next(expression, index):
+    output = ""
+
+    # Structure To Tackle Numbers and Dot 
+    if  expression[index].isdigit():
+        for i in range(index, len(expression)):
+            if expression[i] == '.' or  expression[i].isdigit():
+                output += expression[i]
+            else:
+                break
+            
+        # Conditions To Cast String As Per Condition
+        if '.' in output:
+            output  = float(output)
+                
+        else:
+            output = int(output)
+        
+    # Structure To Tackle Operators 
+    else:
+        for i in range(index, len(expression)):
+            if expression[i] != '.' and not(expression[i].isdigit()):
+                output += expression[i]
+            else:
+                break
+    
+    return output
+               
+    
+    
+
+
+def struct(given_structure):
+
+    all_operators = ['^', 'pow', '*', '/', '%', 'mod', 'div', 'mul', '+', '-', 'add', 'sub']
+
+    # Conditions For Error Handling:-
+    if ((not isinstance(given_structure, list)) or (len(given_structure) == 1) or (given_structure[-1] in all_operators and len(given_structure)%2 == 0)):
+        return f'Failed to structure "{given_structure}"'
+
+    if len(given_structure) == 2:
+        return given_structure
+    
+
+    
+
+
+    # Logic For ^ Operator:
+
+    i = 0 # From 1st Arary Element
+
+    while i < len(given_structure):
+
+        # Checking For Level 1 Operator
+        if given_structure[i] in all_operators[0:2]:
+
+            # Making Nested Structure (Where The Index Will Lie)
+            given_structure[i-1:i+2] = [[given_structure[i], given_structure[i-1], given_structure[i+1]]]
+            i -= 1  # Recheck the current position after replacement
+        else:
+            i += 1      # For Looping
+
+
+    # Logic For Level 1 Operator:
+
+    i = 0   # From 1st Array Element
+
+    while i < len(given_structure):
+
+        # Checking For Level 1 Operator
+        if given_structure[i] in all_operators[2:8]:
+
+            # Making Nested Structure (Where The Index Will Lie)
+            given_structure[i-1:i+2] = [[given_structure[i], given_structure[i-1], given_structure[i+1]]]
+            i -= 1  # Recheck the current position after replacement
+        else:
+            i += 1      # For Looping
+
+    # Logic For Level 2 Operator:
+
+    i = 0 # From 1st Arary Element
+
+    while i < len(given_structure):
+
+        # Checking For Level 1 Operator
+        if given_structure[i] in all_operators[8:]:
+
+            # Making Nested Structure (Where The Index Will Lie)
+            given_structure[i-1:i+2] = [[given_structure[i], given_structure[i-1], given_structure[i+1]]]
+            i -= 1  # Recheck the current position after replacement
+        else:
+            i += 1      # For Looping
+
+
+    # Handling "typos" or unsupported operators
+    i = 0
+    while i < len(given_structure):
+        # If the element is not an operator and not a number (int or float)
+        if isinstance(given_structure[i], str) and len(given_structure[i]) == 1 and given_structure[i] not in all_operators:
+
+            given_structure[i-1:i+2] = [[given_structure[i], given_structure[i-1], given_structure[i+1]]]
+            i -= 1  # Recheck the current position after replacement
+        else:
+            i += 1
+    
+    
+    # Handling "typos" or unsupported operators
+    i = 0
+    while i < len(given_structure):
+        # If the element is not an operator and not a number (int or float)
+        if isinstance(given_structure[i], str) and len(given_structure[i]) > 1 and given_structure[i] not in all_operators:
+
+            given_structure[i-1:i+2] = [[given_structure[i], given_structure[i-1], given_structure[i+1]]]
+            i -= 1  # Recheck the current position after replacement
+        else:
+            i += 1
+
+
+
+    return given_structure[0]       # As Our Answer Will Be Single Answer
+
+
+print(get_next('12+34',  2)   )        #  '+'
+print(get_next('42.2mul16+32', 4))     #  'mul'
+print(get_next('42.2mul16+32', 6))     #  'l'
+print(get_next('42.2mul16+32', 7))     #  16
+print(get_next('234test', 3))          #  test
