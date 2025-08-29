@@ -315,13 +315,17 @@ def coordinate(user_input):
 
 if __name__ == '__main__':
 
+    print("********** Welcome To Expresion-Based Calculator **********\n")
+
     # To Quit The Loop
     to_quite = False
 
     # Array To Save Our Answers
     result = []
     while not to_quite:
-        user_input = input()
+
+        print("********** Enter Your Arithmetic Expression **********\n")
+        user_input = input("Expression: ")
 
         # Condition For Quit
         if user_input in ['q', 'quit']:
@@ -329,7 +333,4 @@ if __name__ == '__main__':
         else:
             answer = coordinate(user_input)
             result.append(answer)
-    
-    # Printing The Answers
-    for i in result:
-        print(i)
+            print(f"Answer: {answer}\n")

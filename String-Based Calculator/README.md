@@ -96,13 +96,17 @@ Error: Invalid operator "-sub"
 * Mismatched parentheses
 * Unsupported expressions like `add(3,)` or `(div 4)`
 
+> You can also use `.exe` file by reaching `build/exe.win-amd64-3.11/loop_calculator.exe`
+
+> ⚠ But you can't use `.exe` file outside this folder
 
 
 ## 🌐 Visit
 
 - Access the code through link:
-https://github.com/devByWaleed/py-projects/tree/main/String-Based%20Calculator
+https://github.com/devByWaleed/py-projects/tree/main/String-Based%20Calculator/console_calculator.py
 
+---
 
 ## 📜 License
 
